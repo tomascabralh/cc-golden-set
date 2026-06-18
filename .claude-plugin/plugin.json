@@ -1,0 +1,12 @@
+{
+  "name": "grind",
+  "version": "0.1.0",
+  "description": "The grind: drive coding work to a verifiable green finish line in rounds, built on /goal and /loop.",
+  "author": {
+    "name": "tomascabralh",
+    "url": "https://github.com/tomascabralh"
+  },
+  "repository": "https://github.com/tomascabralh/grind",
+  "license": "MIT",
+  "keywords": ["claude-code", "grind", "verification", "loops", "goals", "tdd", "workflow"]
+}

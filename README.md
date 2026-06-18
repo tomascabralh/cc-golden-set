@@ -1,77 +1,85 @@
-# cc-loops-goals-prompts
+# grind
 
-A small, opinionated set of **golden prompts and slash commands for Claude Code**,
-built around one idea:
+A Claude Code plugin for **the grind**: pick a target, work it in rounds, verify
+the real thing each round, and stop at mechanical green.
 
-> **Give the agent an explicit, verifiable finish line, and make it verify the
-> real thing every round.**
+> **The idea.** Most work with an agent ends at "this should work." The grind ends
+> at proof: the test exits 0, the typecheck is clean, the real flow runs. You pick a
+> finish line a command can settle, then loop until it is green.
 
-Most "prompt packs" are 100-entry grab-bags. This is the opposite: a tight toolkit
-for the full arc of real work (orient, spec, build, loop-to-green, review, ship),
-with each prompt mapped to how Claude Code actually runs (`/goal`, `/loop`, and
-your `CLAUDE.md`).
+It ships as slash commands for the whole arc of real work (orient, spec, build,
+loop-to-green, review, ship), plus a `grind-discipline` skill that keeps the
+verify-every-round habit on. `/grind` is the headline: it drives one task to a
+verified finish line.
 
-## Why these are different
+## Why a plugin
 
-- **Verifiable, not hopeful.** Every "done" is a mechanical, visible check (tests
-  exit 0, typecheck clean) and good against a reference, not "this should work."
-- **Verify the real thing.** Real inputs, real data, the actual flow, never a mock
-  standing in for the truth.
-- **Mapped to the primitives.** The loop prompts are written to drive `/goal` and
-  `/loop`, not just to be read.
+Everything is mapped to how Claude Code actually runs:
 
-## The two primitives (and one more)
-
-Claude Code gives you two built-in ways to keep an agent working, plus your
-`CLAUDE.md` for always-on behavior:
-
-| Use | What it does | Reach for |
+| Primitive | What it does | In grind |
 |---|---|---|
-| `/goal <condition>` | Runs turns back-to-back; a fast evaluator reads the transcript after each turn and stops when your condition is met. Needs Claude Code v2.1.139+. | Driving one task to a finish line. |
-| `/loop <interval\|cron> <prompt>` | Re-runs a prompt on a clock (`5m`, `--cron ...`), or self-paced if you omit the interval. Session-scoped. | Recurring checks: CI, deploys, audits, watching a long job. |
-| `CLAUDE.md` | Standing instructions applied to every turn, no command needed. | Making the verify-loop discipline always-on. |
+| `/goal <condition>` | Runs turns back-to-back; a fast evaluator reads the transcript after each turn and stops when your condition holds. Needs Claude Code v2.1.139+. | `/grind` is written to be driven this way. |
+| `/loop <interval\|cron> <prompt>` | Re-runs a prompt on a clock, or self-paced if you omit the interval. | `/watch` is built for it. |
+| A skill | Auto-loads instructions when the task matches its description. | `grind-discipline` carries the verify-loop habit. |
 
-> **Tip:** the `/goal` evaluator only reads the transcript. It does not run commands
-> or open files itself, so a check only counts if its output (exit code, error
-> count) actually lands in the transcript. Keep the condition short, mechanical, and
-> provable from Claude's own output (for example, "`npm test` exits 0, `tsc
-> --noEmit` is clean, and the UI matches the design"), and keep the long spec in
-> `CLAUDE.md` as background. To cap a run, put the limit in the condition itself
-> ("...or stop after 15 turns"); a cap written in the prompt body is only advisory,
-> because the model has to count its own turns.
-
-> **One goal per session.** Only one `/goal` runs at a time. `/parallel-goal` below
-> is a single agent self-parallelizing with worktrees and subagents, not several
-> goals stacked together.
+> **Tip:** the `/goal` evaluator only reads the transcript. It can't run commands or
+> open files, so a check only counts if its output (exit code, error count) lands in
+> the transcript. Keep the condition short and mechanical, and put the cap in the
+> condition itself ("...or stop after 20 turns"); a cap in the prompt body is only
+> advisory.
 
 ## Install
 
-These are standard Claude Code slash commands. Copy them wherever Claude Code looks
-for commands:
-
-```bash
-# global, available in every project
-cp commands/*.md ~/.claude/commands/
-
-# or per-project, checked in with the repo
-mkdir -p .claude/commands && cp commands/*.md .claude/commands/
+```text
+/plugin marketplace add tomascabralh/grind
+/plugin install grind@grind
 ```
 
-Then in Claude Code, type `/` and they show up. Pass the task inline, like
-`/goal-loop migrate the auth module to the new API` or
+Then type `/` and the commands show up. Pass the task inline, like
+`/grind migrate the auth module to the new API` or
 `/senior-debug uploads hang above 5MB`.
 
-For the always-on discipline, paste `claude-md/default-goal-loop.md` into your
-project's `CLAUDE.md` (or `~/.claude/CLAUDE.md`). It carries the universal
-guardrails (baseline before changing anything, never weaken a check to pass, name
-your bar when the goal is vague) so every command inherits them.
+Manual fallback (no marketplace): copy the commands, and optionally the skill, into
+where Claude Code looks for them.
+
+```bash
+cp commands/*.md ~/.claude/commands/                                  # commands, global
+cp -r skills/grind-discipline ~/.claude/skills/grind-discipline       # skill, global
+```
+
+## Always-on discipline (optional)
+
+The `grind-discipline` skill loads when its description matches the task, which is
+most coding work but not literally every turn. A plugin can't ship an always-on
+`CLAUDE.md` (Claude Code ignores a plugin's `CLAUDE.md`), so if you want the
+verify-loop habit on unconditionally, paste this into your own `CLAUDE.md` (project
+or `~/.claude/CLAUDE.md`):
+
+```text
+## Default working loop
+
+For any non-trivial task, work in a loop toward a verifiable finish line. Don't
+stop at "it compiles" or "this should work":
+
+- If the finish line is vague, state your interpretation of "done" before you start.
+- Baseline first: run the project's checks once before changing anything, so
+  pre-existing failures aren't misattributed or "fixed."
+- After each meaningful change, run the real check end-to-end (the project's own
+  tests, build, typecheck, or lint) against real inputs, not a mock. Show the output.
+- Exit only when the check is mechanically green and good against the reference
+  (spec, design, acceptance criteria), not just passing.
+- Never modify, skip, weaken, or delete a check to reach green. If a check is itself
+  wrong, stop and say so.
+- If the same fix fails about 3 times, stop and explain what's wrong before trying
+  another approach.
+```
 
 ## The commands
 
 ### Loops & goals
 | Command | What it does |
 |---|---|
-| `/goal-loop` | Drive a task to a verified finish line: implement, run the real check, fix, repeat until green. |
+| `/grind` | Drive a task to a verified finish line: implement, run the real check, fix, repeat until green. |
 | `/parallel-goal` | Plan end-to-end, then execute: parallelize independent units and verify each before integrating. |
 | `/maker-checker` | One pass writes, a separate fresh-eyes pass reviews, and only what passes gets integrated. |
 | `/watch` | Recurring watch: re-check a real status each cycle and act only on what changed. Pair with `/loop`. |
@@ -110,17 +118,17 @@ you're driving, but it pauses an unattended `/goal` loop:
 
 - **Interactive** (expect to answer questions): `/spec-from-idea`, `/map-codebase`,
   `/fresh-eyes-review`, `/ship-pr`.
-- **Autonomous** (safe to leave running): `/goal-loop`, `/parallel-goal`,
+- **Autonomous** (safe to leave running): `/grind`, `/parallel-goal`,
   `/maker-checker`, `/watch`.
 
-`/goal-loop` straddles both: its "stop and ask before a different approach" line is
+`/grind` straddles both: its "stop and ask before a different approach" line is
 right for interactive use but pauses an overnight run, so drop that line when you
 need it fully hands-off.
 
 ## A typical flow
 
 ```
-/spec-from-idea  ->  /map-codebase  ->  /goal-loop  ->  /fresh-eyes-review  ->  /ship-pr
+/spec-from-idea  ->  /map-codebase  ->  /grind  ->  /fresh-eyes-review  ->  /ship-pr
 ```
 
 Use `/tdd` for individual units, and keep `/watch` running on a `/loop` to hold CI

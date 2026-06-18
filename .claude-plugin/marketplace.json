@@ -1,0 +1,14 @@
+{
+  "name": "grind",
+  "owner": {
+    "name": "tomascabralh"
+  },
+  "description": "The grind: a Claude Code plugin that drives coding work to a verifiable green finish line in rounds.",
+  "plugins": [
+    {
+      "name": "grind",
+      "source": "./",
+      "description": "The grind: drive coding work to a verifiable green finish line in rounds."
+    }
+  ]
+}

@@ -1,12 +1,12 @@
-<!--
-Paste this into your project's CLAUDE.md (or ~/.claude/CLAUDE.md) so the
-verify-the-real-thing discipline is always on, with no command needed.
--->
+---
+name: grind-discipline
+description: The grind. Drive any non-trivial coding task to a verifiable green finish line in rounds. Use when implementing, fixing, refactoring, optimizing, or building anything whose result can be checked by a test, build, typecheck, or lint.
+---
 
-## Default working loop
+# The grind
 
-For any non-trivial task, work in a loop toward a verifiable finish line. Don't
-stop at "it compiles" or "this should work":
+Pick a target, work it in rounds, and verify the real thing each round. Don't stop
+at "it compiles" or "this should work": stop at mechanical green.
 
 - If the finish line is vague, state your interpretation of "done" before you
   start, so success is measured against a bar you named up front, not one invented
