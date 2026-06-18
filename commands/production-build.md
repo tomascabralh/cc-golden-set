@@ -14,3 +14,7 @@ maintainable.
 Deliver: an architecture overview, folder structure, data flow, schema and API
 design where relevant, the full implementation, error and edge-case handling, and
 performance notes. Build it like a real startup MVP, not a demo.
+
+Finish by running the project's checks end-to-end (tests, build, typecheck, lint)
+and showing they pass. Building without that proof contradicts the point. For the
+full fix-until-green loop, drive this with /goal-loop.

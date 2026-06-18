@@ -27,14 +27,22 @@ Claude Code gives you two built-in ways to keep an agent working, plus your
 
 | Use | What it does | Reach for |
 |---|---|---|
-| `/goal <condition>` | Runs turns back-to-back; a fast evaluator checks your condition after each turn and stops when it's met. Needs Claude Code v2.1.139+. | Driving one task to a finish line. |
+| `/goal <condition>` | Runs turns back-to-back; a fast evaluator reads the transcript after each turn and stops when your condition is met. Needs Claude Code v2.1.139+. | Driving one task to a finish line. |
 | `/loop <interval\|cron> <prompt>` | Re-runs a prompt on a clock (`5m`, `--cron ...`), or self-paced if you omit the interval. Session-scoped. | Recurring checks: CI, deploys, audits, watching a long job. |
 | `CLAUDE.md` | Standing instructions applied to every turn, no command needed. | Making the verify-loop discipline always-on. |
 
-> **Tip:** keep a `/goal` condition short, mechanical, and provable from Claude's
-> own output (for example, "`npm test` exits 0, `tsc --noEmit` is clean, and the UI
-> matches the design"). Keep the long spec in `CLAUDE.md` as background, since the
-> evaluator only sees what lands in the transcript.
+> **Tip:** the `/goal` evaluator only reads the transcript. It does not run commands
+> or open files itself, so a check only counts if its output (exit code, error
+> count) actually lands in the transcript. Keep the condition short, mechanical, and
+> provable from Claude's own output (for example, "`npm test` exits 0, `tsc
+> --noEmit` is clean, and the UI matches the design"), and keep the long spec in
+> `CLAUDE.md` as background. To cap a run, put the limit in the condition itself
+> ("...or stop after 15 turns"); a cap written in the prompt body is only advisory,
+> because the model has to count its own turns.
+
+> **One goal per session.** Only one `/goal` runs at a time. `/parallel-goal` below
+> is a single agent self-parallelizing with worktrees and subagents, not several
+> goals stacked together.
 
 ## Install
 
@@ -54,7 +62,9 @@ Then in Claude Code, type `/` and they show up. Pass the task inline, like
 `/senior-debug uploads hang above 5MB`.
 
 For the always-on discipline, paste `claude-md/default-goal-loop.md` into your
-project's `CLAUDE.md` (or `~/.claude/CLAUDE.md`).
+project's `CLAUDE.md` (or `~/.claude/CLAUDE.md`). It carries the universal
+guardrails (baseline before changing anything, never weaken a check to pass, name
+your bar when the goal is vague) so every command inherits them.
 
 ## The commands
 
@@ -92,6 +102,20 @@ project's `CLAUDE.md` (or `~/.claude/CLAUDE.md`).
 |---|---|
 | `/fresh-eyes-review` | Adversarial review against spec, tests, types, and security. |
 | `/ship-pr` | Finalize into a clean PR: tidy the diff, run checks, write the commit message and PR body. |
+
+## Interactive vs autonomous
+
+Some commands ask questions or surface decisions mid-run. That's what you want when
+you're driving, but it pauses an unattended `/goal` loop:
+
+- **Interactive** (expect to answer questions): `/spec-from-idea`, `/map-codebase`,
+  `/fresh-eyes-review`, `/ship-pr`.
+- **Autonomous** (safe to leave running): `/goal-loop`, `/parallel-goal`,
+  `/maker-checker`, `/watch`.
+
+`/goal-loop` straddles both: its "stop and ask before a different approach" line is
+right for interactive use but pauses an overnight run, so drop that line when you
+need it fully hands-off.
 
 ## A typical flow
 

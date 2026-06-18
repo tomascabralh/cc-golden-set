@@ -8,10 +8,13 @@ performance.
 
 Bug: $ARGUMENTS
 
+First reproduce the bug reliably. If you can't reproduce it, say so rather than
+guessing at a fix, since a fix for an unreproduced bug can't be verified.
+
 Your answer covers three things:
 1. The root cause, and why it happens.
 2. A solid fix, with the actual code.
 3. How to prevent this class of bug from recurring: a test, a guardrail, or a
    structural change.
 
-If you can, write a failing test that reproduces it first, then make it pass.
+Capture the reproduction as a failing test first, then make it pass.

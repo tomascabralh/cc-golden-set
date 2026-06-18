@@ -15,5 +15,7 @@ Produce:
 5. Risks and smells: duplicated logic, tangled responsibilities, dead code, and
    anything fragile. List them, don't fix them yet.
 
-Read the actual code to confirm claims; don't guess from names. End with the few
-things you'd want to understand better before making changes.
+Read the actual code to confirm claims; don't guess from names, and cite a
+file:line for each non-obvious claim so it can be checked rather than taken on
+faith. End with the few things you'd want to understand better before making
+changes.
