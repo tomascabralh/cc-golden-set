@@ -1,5 +1,5 @@
 ---
-description: The grind. Drive a task to a verified green finish line in rounds: implement, run the real check, fix, repeat.
+description: "Drive a task to a verified green finish line in rounds: implement, run the real check, fix, repeat."
 argument-hint: [task or spec]
 ---
 Goal: $ARGUMENTS

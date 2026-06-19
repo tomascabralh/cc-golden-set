@@ -1,12 +1,12 @@
 {
-  "name": "grind",
+  "name": "cc-golden-set",
   "version": "0.1.0",
-  "description": "The grind: drive coding work to a verifiable green finish line in rounds, built on /goal and /loop.",
+  "description": "A golden set of Claude Code commands for driving coding work to a verified, green finish line in rounds, built on /goal and /loop.",
   "author": {
     "name": "tomascabralh",
     "url": "https://github.com/tomascabralh"
   },
-  "repository": "https://github.com/tomascabralh/grind",
+  "repository": "https://github.com/tomascabralh/cc-golden-set",
   "license": "MIT",
-  "keywords": ["claude-code", "grind", "verification", "loops", "goals", "tdd", "workflow"]
+  "keywords": ["claude-code", "commands", "verification", "loops", "goals", "tdd", "workflow"]
 }

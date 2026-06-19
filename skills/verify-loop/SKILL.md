@@ -1,9 +1,9 @@
 ---
-name: grind-discipline
-description: The grind. Drive any non-trivial coding task to a verifiable green finish line in rounds. Use when implementing, fixing, refactoring, optimizing, or building anything whose result can be checked by a test, build, typecheck, or lint.
+name: verify-loop
+description: Drive any non-trivial coding task to a verifiable green finish line in rounds. Use when implementing, fixing, refactoring, optimizing, or building anything whose result can be checked by a test, build, typecheck, or lint.
 ---
 
-# The grind
+# Verify loop
 
 Pick a target, work it in rounds, and verify the real thing each round. Don't stop
 at "it compiles" or "this should work": stop at mechanical green.

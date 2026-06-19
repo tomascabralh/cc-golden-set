@@ -18,7 +18,7 @@ what actually changes the design. Then produce:
    exits 0" or "tsc --noEmit reports 0 errors"), not just "it works." Keep any
    criterion that can only be eyeballed to a minimum, because whatever verifies
    this later can run a command but cannot judge a vibe. These become the finish
-   line /grind verifies against.
+   line /refine-loop verifies against.
 4. Key decisions and open questions: the assumptions you're making and anything
    still undecided.
 

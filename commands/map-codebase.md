@@ -1,6 +1,6 @@
 ---
 description: Read-only map of an unfamiliar codebase (architecture, data flow, and risks) before changing anything.
-argument-hint: [optional: area or question to focus on]
+argument-hint: "[optional: area or question to focus on]"
 ---
 Act as a senior engineer who just inherited this codebase. Map it before changing
 anything. This pass is read-only.

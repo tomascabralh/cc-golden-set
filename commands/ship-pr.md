@@ -1,6 +1,6 @@
 ---
 description: Finalize work into a clean PR. Tidy the diff, run the checks, write the commit message and PR body.
-argument-hint: [optional: PR title or focus]
+argument-hint: "[optional: PR title or focus]"
 ---
 Get this work ready to merge.
 

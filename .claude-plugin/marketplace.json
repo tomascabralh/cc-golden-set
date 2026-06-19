@@ -1,14 +1,14 @@
 {
-  "name": "grind",
+  "name": "cc-golden-set",
   "owner": {
     "name": "tomascabralh"
   },
-  "description": "The grind: a Claude Code plugin that drives coding work to a verifiable green finish line in rounds.",
+  "description": "A golden set of Claude Code commands for driving coding work to a verified, green finish line in rounds.",
   "plugins": [
     {
-      "name": "grind",
+      "name": "cc-golden-set",
       "source": "./",
-      "description": "The grind: drive coding work to a verifiable green finish line in rounds."
+      "description": "A golden set of Claude Code commands for driving coding work to a verified, green finish line in rounds."
     }
   ]
 }

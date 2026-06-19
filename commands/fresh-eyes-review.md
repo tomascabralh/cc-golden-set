@@ -1,6 +1,6 @@
 ---
 description: Adversarial code review with fresh eyes. Check the change against spec, tests, types, and security.
-argument-hint: [optional: what changed, or the spec it should meet]
+argument-hint: "[optional: what changed, or the spec it should meet]"
 ---
 Review this change as a skeptical senior engineer seeing it for the first time.
 Assume there is a bug until you've verified otherwise. Your job is to find what's

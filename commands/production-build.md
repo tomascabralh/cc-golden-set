@@ -17,4 +17,4 @@ performance notes. Build it like a real startup MVP, not a demo.
 
 Finish by running the project's checks end-to-end (tests, build, typecheck, lint)
 and showing they pass. Building without that proof contradicts the point. For the
-full fix-until-green loop, drive this with /grind.
+full fix-until-green loop, drive this with /refine-loop.
